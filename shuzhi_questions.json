@@ -1,0 +1,214 @@
+[
+  {
+    "id": 1,
+    "category": "整体概览",
+    "question": "请概括一下你这段时间的工作主线和角色变化。",
+    "answer": "工作主线是智能体平台基础能力，到商业化线索和会员，再到实时互动数字人，最后是数字人 PaaS/Pipeline 平台建设。2025 年下半年以智能体平台和商业化线索链路为主；2025 年底转向数字人；2026 年集中建设形象制作、质检、端到端评估和对客 PaaS 交付平台，担任平台 server 侧负责人之一。",
+    "points": [
+      {"name": "智能体平台", "keywords": ["智能体平台", "agent平台", "智能体"]},
+      {"name": "商业化线索/会员", "keywords": ["商业化", "线索", "rfq", "会员"]},
+      {"name": "实时互动数字人", "keywords": ["数字人"]},
+      {"name": "PaaS/Pipeline 平台", "keywords": ["paas", "pipeline", "ppl"]},
+      {"name": "角色：平台负责人", "keywords": ["负责人", "owner", "主导", "牵头"]}
+    ]
+  },
+  {
+    "id": 2,
+    "category": "智能体平台",
+    "question": "讲讲 agent-mount 前置数据获取优化：遇到什么问题，怎么做的，效果如何？",
+    "answer": "原来按挂载项起多个协程并发查 MySQL，挂载商品多的智能体内存高、响应慢。改成 WHERE IN 一次批量查询；用 v1/v2 双接口加提前 return 分两次灰度上线；用 hey 压测、pprof 分析，并回归了全部 10 类挂载组件。平均耗时从 3.124s 降到 98ms，约 30 倍；QPS 从 3.09 提到 50.6；协程减少 30%，内存分配减少 48.5%。",
+    "points": [
+      {"name": "问题：多协程并发查库", "keywords": ["协程", "并发查", "查库次数", "多次查询", "请求数据库次数"]},
+      {"name": "方案：批量查询", "keywords": ["wherein", "批量查询", "in查询", "一次查询", "一次性查询", "批量"]},
+      {"name": "灰度上线", "keywords": ["灰度", "v1", "v2", "提前return", "分阶段"]},
+      {"name": "压测/性能分析", "keywords": ["压测", "hey", "pprof"]},
+      {"name": "效果：约 30 倍", "keywords": ["30倍", "98ms", "3.1s", "3秒", "50.6"]},
+      {"name": "回归验证", "keywords": ["回归", "10类", "对比", "一致"]}
+    ]
+  },
+  {
+    "id": 3,
+    "category": "智能体平台",
+    "question": "mount 优化改的是核心链路，你怎么保证上线不出问题？",
+    "answer": "接口分 v1/v2，新逻辑和老逻辑并存；先在获取 mountdata 处提前 return，分两次上线，验证通过后再去掉 return。上线前逐一对比改动前后 10 类挂载组件的接口数据和召回样式，结果一致；同时用 hey 压测和 pprof 看协程、内存。还统计了影响面：手动挂载商品的智能体 23.8 万个，挂载数 20 以上的 3331 个。",
+    "points": [
+      {"name": "双接口并存", "keywords": ["v1", "v2", "双接口", "新老逻辑"]},
+      {"name": "分两次上线", "keywords": ["提前return", "分两次", "两半", "分阶段", "灰度"]},
+      {"name": "数据对比回归", "keywords": ["回归", "对比", "一致", "diff"]},
+      {"name": "覆盖全部组件", "keywords": ["10类", "全部组件", "所有组件", "十类"]},
+      {"name": "压测验证", "keywords": ["压测", "pprof", "hey"]},
+      {"name": "统计影响面", "keywords": ["影响面", "23.8万", "238645", "3331"]}
+    ]
+  },
+  {
+    "id": 4,
+    "category": "智能体平台",
+    "question": "资源型智能体追问优化是怎么做的？效果如何？",
+    "answer": "资源型智能体（影视、小说、音乐）的追问 badcase 率 20%。识别资源型标签后改用专用模板，Prompt 多轮迭代，加入要求定义、续写示例、严格禁令（不对剧情人物提问、不评价、不提网盘下载等）和输出格式。在不换模型的前提下，150 条追问中 badcase 率降到 4.67%，有效推荐追问率从 18% 升到 35%。",
+    "points": [
+      {"name": "背景：badcase 20%", "keywords": ["20%", "badcase"]},
+      {"name": "资源型专用模板", "keywords": ["专用模板", "资源型", "垂类", "模板"]},
+      {"name": "禁令约束", "keywords": ["禁令", "禁止", "约束"]},
+      {"name": "示例", "keywords": ["示例", "续写", "fewshot"]},
+      {"name": "结果：4.67%", "keywords": ["4.67", "4.7%", "7条"]},
+      {"name": "有效推荐 35%", "keywords": ["35%", "有效推荐"]},
+      {"name": "不换模型", "keywords": ["不换模型", "现有模型", "成本", "没换模型"]}
+    ]
+  },
+  {
+    "id": 5,
+    "category": "问题排查",
+    "question": "约 240 个智能体上线后跳转下线页的问题，你是怎么定位和解决的？",
+    "answer": "shendeng 返回 1006 agent is offline。通过日志 logid 串联 shendeng 和千帆两侧，发现调用千帆 /v2/assistants/update 返回 5002 Assistant 不存在，原因是这些智能体的 Assistant 创建在线下。在 pipe_app_save 中识别 5002 后改为调用 CreateAssistant 重建，做成自愈式兜底，并在线下构造错误 assistant_id 复现验证。",
+    "points": [
+      {"name": "现象", "keywords": ["下线页", "已下线", "1006", "offline"]},
+      {"name": "根因：千帆 Assistant 不存在", "keywords": ["千帆", "assistant不存在", "5002"]},
+      {"name": "线下创建", "keywords": ["线下"]},
+      {"name": "方案：重建 Assistant", "keywords": ["重建", "createassistant", "重新创建"]},
+      {"name": "日志串联定位", "keywords": ["logid", "日志"]},
+      {"name": "自愈兜底", "keywords": ["兜底", "自愈", "自动"]}
+    ]
+  },
+  {
+    "id": 6,
+    "category": "商业化线索",
+    "question": "商业化线索 RFQ 数据链路打通，你具体做了什么？难点在哪？",
+    "answer": "目标是衡量一个 query 通过什么内容给哪个智能体带来多少商业价值。改动 704、676、646、722、714 五个服务，覆盖 q2a、q2c、房间页、快捷指令、电话+线索五种通路，在 chatInfo 中补齐 logId、messageId、contentId、searchWord 等字段，RFQ 生成改为基于 session 上下文。难点是各通路字段来源不一致（只有 q2c 有 contentId），上线要按 704 先发的顺序。",
+    "points": [
+      {"name": "目标：商业价值归因", "keywords": ["归因", "商业价值", "飞轮", "转化"]},
+      {"name": "跨 5 个服务", "keywords": ["704", "676", "646", "722", "714", "五个服务", "5个服务"]},
+      {"name": "多种通路", "keywords": ["q2a", "q2c", "房间页", "快捷指令", "通路"]},
+      {"name": "补齐关联字段", "keywords": ["logid", "messageid", "contentid", "searchword"]},
+      {"name": "session 上下文", "keywords": ["session", "上下文", "历史"]},
+      {"name": "上线顺序", "keywords": ["上线顺序", "704先", "先发", "依赖顺序"]},
+      {"name": "难点：字段来源不一致", "keywords": ["不一致", "只有q2c", "来源不同"]}
+    ]
+  },
+  {
+    "id": 7,
+    "category": "问题排查",
+    "question": "数字人首 token 耗时长，你是怎么排查的？",
+    "answer": "在 646 日志里用 grep/awk 筛出首 token 超过 2s 的数字人请求，再到 trace 平台按 session_id 检索，发现 op_prompter 报 preRole user nowRole user 的消息序列错误，原因是历史记录里有 user 输入但没有 assistant 回复。修复方式是在 ai-agent-core 查询历史时过滤掉没有 assistant 回复的记录。",
+    "points": [
+      {"name": "日志筛选慢请求", "keywords": ["2s", "2秒", "first_cost", "日志", "grep"]},
+      {"name": "trace 定位", "keywords": ["trace"]},
+      {"name": "根因：消息序列错误", "keywords": ["序列", "preRole", "useruser", "没有assistant", "缺少回复", "没有回复"]},
+      {"name": "修复：过滤历史", "keywords": ["过滤"]}
+    ]
+  },
+  {
+    "id": 8,
+    "category": "数字人",
+    "question": "数字人「最近使用」接口的整体方案是什么？",
+    "answer": "写入：646 在对话时通过 bigpipe 写出，新增 from、scene 区分数字人，并过滤默认引导产生的空 query。存储：697 订阅后双写 Redis ZSET（只缓存 16 条，过期 12 个月）和 MySQL。读取：选择分发 server 调 agent server 的方案，首屏查 Redis，未命中回源 MySQL 并回写，非首屏直接查 MySQL，游标分页。上线前预估 Redis 约 0.9GB、MySQL 约 3000 万行，QPS 峰值约 5，耗时 150ms。",
+    "points": [
+      {"name": "bigpipe 写入", "keywords": ["bigpipe", "pipe", "消息队列", "订阅"]},
+      {"name": "Redis ZSET", "keywords": ["zset", "有序集合"]},
+      {"name": "双写 Redis + MySQL", "keywords": ["双写", "mysql"]},
+      {"name": "回源回写", "keywords": ["回源", "回写", "回填", "未命中"]},
+      {"name": "游标分页", "keywords": ["游标", "cursor", "分页"]},
+      {"name": "容量预估", "keywords": ["容量", "0.9g", "3000万", "预估"]},
+      {"name": "方案选型", "keywords": ["方案二", "选型", "两种方案", "对比", "选择"]}
+    ]
+  },
+  {
+    "id": 9,
+    "category": "数字人平台",
+    "question": "端到端视频评估平台你负责了哪些部分？",
+    "answer": "设计 4 张表：任务表有生产、质检、可交付三条状态线，指标打分表有 17 个指标、6 个维度、0 到 3 分。开发任务创建、case 列表、质检提交、管理员抽检覆盖分数、设置可交付等接口。后台 VideoProduceWorker 轮询待生产任务，先改状态防重复，解析 BOS 上的 Excel 数据集逐条调视频生产，失败自动重试一次。质检支持单人和交叉两种轮询分配，交叉模式按分档合并分数。",
+    "points": [
+      {"name": "表设计", "keywords": ["4张表", "四张表", "表设计", "建表"]},
+      {"name": "17 指标 / 6 维度", "keywords": ["17", "6个维度", "六个维度", "维度"]},
+      {"name": "多条状态线", "keywords": ["状态线", "三条状态", "状态"]},
+      {"name": "后台 Worker", "keywords": ["worker", "轮询", "定时任务"]},
+      {"name": "防重复 + 重试", "keywords": ["防重复", "重试"]},
+      {"name": "交叉质检", "keywords": ["交叉"]},
+      {"name": "管理员抽检覆盖", "keywords": ["抽检", "覆盖", "管理员"]}
+    ]
+  },
+  {
+    "id": 10,
+    "category": "数字人平台",
+    "question": "形象包制作中删除衔接视频这个需求，你的设计要点是什么？",
+    "answer": "平台化一期上线后，部分衔接片段多次抽卡仍不通过，PM 线下处理效率低。新增 6 个接口，超管配置舍弃轮次后通知 Pipeline，舍弃逻辑由 Pipeline 执行。整包可用率和一次可用率预先写入 figure 表，列表直接读；新增 is_spot_checked 冗余字段，计算一次可用率时不用 JOIN 抽检记录；列表用批量 IN 查询避免 N+1。Pipeline 通知失败只记日志，配置照常保存，可重新提交重试。",
+    "points": [
+      {"name": "背景：抽卡不通过", "keywords": ["抽卡", "不通过", "线下处理"]},
+      {"name": "舍弃轮次", "keywords": ["舍弃", "轮次", "discard"]},
+      {"name": "通知 Pipeline", "keywords": ["通知", "pipeline"]},
+      {"name": "可用率预计算", "keywords": ["可用率", "预先", "冗余", "预计算"]},
+      {"name": "避免 JOIN / N+1", "keywords": ["join", "n+1", "批量", "in查询"]},
+      {"name": "失败不阻断", "keywords": ["失败", "只记日志", "不阻断", "重试"]}
+    ]
+  },
+  {
+    "id": 11,
+    "category": "数字人平台",
+    "question": "长底板循环方案解决什么问题？怎么做到不影响存量链路？",
+    "answer": "标准 4 动作 2 表情的形象包要靠多段底板加大量衔接片段，需要 8 个工作日；有客户不在乎动作表情但要快。长底板方案不生产衔接视频，只把底板正反拼接循环，目标缩到小时级。figure 表新增类型、超分、拼接方式等字段，默认值兼容存量，不用回刷；完全复用现有 status 枚举，不新增状态值，外显时先看类型再解释状态；长底板跳过质检。",
+    "points": [
+      {"name": "痛点：8 个工作日", "keywords": ["8个工作日", "8天", "周期长", "慢"]},
+      {"name": "不生产衔接视频", "keywords": ["不生产衔接", "不需要衔接", "跳过衔接", "无衔接"]},
+      {"name": "正反拼接循环", "keywords": ["拼接", "循环"]},
+      {"name": "小时级", "keywords": ["小时级", "小时"]},
+      {"name": "复用状态枚举", "keywords": ["复用", "不新增状态", "status"]},
+      {"name": "兼容存量", "keywords": ["存量", "默认值", "不回刷", "兼容"]},
+      {"name": "跳过质检", "keywords": ["跳过质检", "不质检"]}
+    ]
+  },
+  {
+    "id": 12,
+    "category": "PaaS",
+    "question": "对客售卖 PaaS 平台中，你遇到的关键设计问题有哪些？怎么解决？",
+    "answer": "一是公版归属冲突：一个 Agent 不能同时属于公共客户和购买客户，于是把公版从客户层级移到模板层级，每笔订单独立创建数字人。二是状态一致性：审核状态不落表，按素材取最新审核记录实时聚合；交付 stage 只在 status_query、bind_cmeta 回调、缩容三处显式推进，另有 RecomputeDelivery 定时任务兜底巡检。三是上线依赖：架构后端、pipeline 后端、pipeline 前端、paas 按顺序上线。",
+    "points": [
+      {"name": "公版归属冲突", "keywords": ["归属", "公版", "冲突", "公共客户"]},
+      {"name": "模板层级", "keywords": ["模板层级", "模板"]},
+      {"name": "审核状态实时聚合", "keywords": ["不落表", "实时聚合", "聚合", "最新一条"]},
+      {"name": "stage 显式推进", "keywords": ["显式推进", "三处", "stage"]},
+      {"name": "兜底巡检", "keywords": ["兜底", "巡检", "recompute", "定时任务"]},
+      {"name": "上线顺序", "keywords": ["上线顺序", "先上线", "依赖"]}
+    ]
+  },
+  {
+    "id": 13,
+    "category": "数据治理",
+    "question": "智能体对话数据冷备和删除是怎么做的？怎么保证安全？",
+    "answer": "3 个 GaiaDB 集群，两类对话表各 2048 张分表，约 20T。自研 Go 备份任务按分表区间导出 CSV 到 AFS，部署成每日定时批任务并分段并发；用 afsshell 抽样校验文件的首末 id 和时间。删除前和 DBA 确认，通过 DMS 分批执行，厂内对话删到 2024-01-01，第三方删到 2025-01-01，最后释放表空间。先冷备再删除，过程可回溯。",
+    "points": [
+      {"name": "规模：20T / 2048 分表", "keywords": ["20t", "2048", "分表"]},
+      {"name": "自研备份任务", "keywords": ["备份任务", "go", "自研", "导出"]},
+      {"name": "存到 AFS", "keywords": ["afs"]},
+      {"name": "抽样校验", "keywords": ["抽样", "校验"]},
+      {"name": "DBA 确认 + 分批删除", "keywords": ["dba", "分批", "dms"]},
+      {"name": "先备份后删除", "keywords": ["先备份", "先冷备", "冷备"]},
+      {"name": "释放表空间", "keywords": ["表空间", "释放"]}
+    ]
+  },
+  {
+    "id": 14,
+    "category": "综合",
+    "question": "你在线上变更时有哪些控制风险的做法？请举例。",
+    "answer": "一是灰度：mount 优化用 v1/v2 双接口加提前 return 分两次上线。二是在线 DDL：表变更使用 ALGORITHM=INPLACE、LOCK=NONE，不锁表。三是先备份后变更：对话数据先冷备再删除，20b 衔接视频清理先备份三张质检表，按顺序变更、可按顺序回滚。四是新能力只命中新枚举值：长底板组件只走 biz_scene_detail=4，存量链路不受影响。五是失败不阻断：Pipeline 通知失败只记日志。",
+    "points": [
+      {"name": "灰度上线", "keywords": ["灰度", "v1", "v2", "双接口"]},
+      {"name": "在线 DDL", "keywords": ["inplace", "在线ddl", "不锁表", "locknone"]},
+      {"name": "先备份", "keywords": ["备份", "冷备"]},
+      {"name": "可回滚", "keywords": ["回滚"]},
+      {"name": "隔离新逻辑", "keywords": ["新枚举", "只命中", "隔离", "不影响存量"]},
+      {"name": "举出具体例子", "keywords": ["mount", "长底板", "衔接", "对话数据"]}
+    ]
+  },
+  {
+    "id": 15,
+    "category": "综合",
+    "question": "这段时间你最有代表性的量化成果有哪些？",
+    "answer": "agent-mount 优化平均耗时从 3.124s 降到 98ms，约 30 倍，QPS 从 3.09 到 50.6；资源型智能体追问 badcase 率从 20% 降到 4.67%，有效推荐率从 18% 到 35%；shendeng 存储占用从约 80% 降到约 61%；对话数据约 20T 完成冷备和删除；修复约 240 个智能体跳转下线页的问题。",
+    "points": [
+      {"name": "mount 30 倍", "keywords": ["30倍", "98ms", "50.6"]},
+      {"name": "追问 4.67%", "keywords": ["4.67", "badcase"]},
+      {"name": "存储 80%→61%", "keywords": ["61%", "80%", "存储"]},
+      {"name": "20T 冷备", "keywords": ["20t", "冷备"]},
+      {"name": "240 个智能体", "keywords": ["240"]}
+    ]
+  }
+]
