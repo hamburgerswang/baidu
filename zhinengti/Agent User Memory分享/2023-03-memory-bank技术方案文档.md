@@ -18,7 +18,7 @@
 ## 2. 核心机制与三大支柱
 MemoryBank的架构建立在三个相互协作的核心组件之上，形成了一个完整的记忆管理系统：
 
-[https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=c0f484120c174e51bb7ecee80f30f189&docGuid=W80MNBILNuIZeC](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=c0f484120c174e51bb7ecee80f30f189&docGuid=W80MNBILNuIZeC)
+![](image/c0f484120c174e51bb7ecee80f30f189.png)
 
 ### • 记忆存储
 作为数据仓库，以层次化方式存储信息，包括原始对话、事件摘要和用户画像。
@@ -44,7 +44,7 @@ MemoryBank的架构建立在三个相互协作的核心组件之上，形成了�
 2. 2.**状态判决**：当 R 低于阈值（如0.1）时，将记忆标记为 `is_active = FALSE`
 3. 3.**检索过滤**：在记忆检索时，系统优先或只考虑 `is_active = TRUE`的记忆
 
-[https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=1439bf6ffeca4a2cbdde7d17fd51229a&docGuid=W80MNBILNuIZeC](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=1439bf6ffeca4a2cbdde7d17fd51229a&docGuid=W80MNBILNuIZeC)
+![](image/1439bf6ffeca4a2cbdde7d17fd51229a.png)
 
 ### 3.2 如何解决记忆内容与向量数据的一致性冲突？
 这是一个关键的工程细节。冲突主要发生在记忆内容更新而向量未同步更新时。
@@ -64,7 +64,7 @@ MemoryBank的架构建立在三个相互协作的核心组件之上，形成了�
 2. 2.**活力加权**：计算**综合得分 = 语义相似度 × 活力分数**
 3. 3.**重排序**：按综合得分对候选记忆进行最终排序
 
-[https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=6f1e3f2a503d457995f5a0e71a7431f3&docGuid=W80MNBILNuIZeC](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=6f1e3f2a503d457995f5a0e71a7431f3&docGuid=W80MNBILNuIZeC)
+![](image/6f1e3f2a503d457995f5a0e71a7431f3.png)
 
 ## 4. 系统工程实现架构
 MemoryBank的工程实现是一个典型的异构系统，协同利用多种数据库和模型。
@@ -87,7 +87,7 @@ SiliconFriend是MemoryBank理念的实体化展示，它集成了记忆机制并
 * ∙**心理支持**：通过使用心理学对话数据微调，使其能提供更具共情力的回应
 * ∙**个性化交互**：能够根据对用户个性的长期理解，提供量身定制的建议
 
-[https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=7021237a6c4445d2a65ccc0b66a83890&docGuid=W80MNBILNuIZeC](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=7021237a6c4445d2a65ccc0b66a83890&docGuid=W80MNBILNuIZeC)
+![](image/7021237a6c4445d2a65ccc0b66a83890.png)
 
 ## 6. 工程实现思路总结
 ### 核心创新点

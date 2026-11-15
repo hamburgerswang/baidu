@@ -160,8 +160,8 @@ flowchart TD
 ```
 **生成的测试代码示例：**
 
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=ff030c6ec1ab446c959c519af88be76a&docGuid=B9Pu72jHfgFf-o)
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=5c5e5f6f05864f4087e3ec57963a583f&docGuid=B9Pu72jHfgFf-o)
+![](image/ff030c6ec1ab446c959c519af88be76a.png)
+![](image/5c5e5f6f05864f4087e3ec57963a583f.png)
 ```go
 package discount
 
@@ -312,8 +312,8 @@ flowchart TD
 
 **生成的测试代码示例：**
 
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=9f85212f29d04119a3c2a5ebd87978fc&docGuid=B9Pu72jHfgFf-o)
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=2b9a5f042345485c889e1fc6775360da&docGuid=B9Pu72jHfgFf-o)
+![](image/9f85212f29d04119a3c2a5ebd87978fc.png)
+![](image/2b9a5f042345485c889e1fc6775360da.png)
 ```go
 // UserService 单元测试
 package user
@@ -524,9 +524,9 @@ flowchart TD
 
 **生成的测试代码示例：**
 
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=9c5aa78dabb4498096bbec297bd625bf&docGuid=B9Pu72jHfgFf-o)
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=1967bb1e54294f7b8ac48c8b6ba16fc1&docGuid=B9Pu72jHfgFf-o)
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=b72b1f112e0e4f7287f945e7b8d09e1a&docGuid=B9Pu72jHfgFf-o)
+![](image/9c5aa78dabb4498096bbec297bd625bf.png)
+![](image/1967bb1e54294f7b8ac48c8b6ba16fc1.png)
+![](image/b72b1f112e0e4f7287f945e7b8d09e1a.png)
 ```go
 // UserService 单元测试
 package user
@@ -804,8 +804,8 @@ flowchart LR
 ```
 
 
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=64ba314213084683b73a804fa16065c4&docGuid=B9Pu72jHfgFf-o)
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=b4b1ed49ee5f4202aafcdee1003376e7&docGuid=B9Pu72jHfgFf-o)
+![](image/64ba314213084683b73a804fa16065c4.png)
+![](image/b4b1ed49ee5f4202aafcdee1003376e7.png)
 ```md
 ---
 name: "unit-test-generator"

@@ -20,7 +20,7 @@
 # 二、测试框架&规范
 [1.1 百度 Go 编码规范 v1.3](https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/pKzJfZczuc/a1zD7CMpKX/AD4lVjdO8PfAC6?t=mention&mt=doc&dt=doc)
 
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=e1982531cf314facab25d2dfdcd669fe&docGuid=KSF8a-DkJGvsSO)
+![](image/e1982531cf314facab25d2dfdcd669fe.png)
 |**场景**|**框架**|**推荐理由**|
 |-|-|-|
 |测试组织&断言|goconvey[https://github.com/smartystreets/goconvey](https://github.com/smartystreets/goconvey) testify[https://github.com/stretchr/testify](https://github.com/stretchr/testify)|成熟的组织与断言框架；[testify](https://github.com/stretchr/testify)也挺好但mockey对convey兼容好|
@@ -42,9 +42,9 @@
 * review AI生的用例，审核入参和断言是否正确
 * 补充AI没有覆盖到的业务相关的测试用例
 
-![Goland](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=9257982dbde246f8b9bc29bee2dff70a&docGuid=KSF8a-DkJGvsSO "Goland")
-![Comate AI IDE](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=4ba16660ce0a4a4f9285ecdb96de40e1&docGuid=KSF8a-DkJGvsSO "Comate AI IDE")
-![Vscode](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=4aca70adc5c14cdd9df02f14e3e3e0ef&docGuid=KSF8a-DkJGvsSO "Vscode")
+![Goland](image/9257982dbde246f8b9bc29bee2dff70a.png "Goland")
+![Comate AI IDE](image/4ba16660ce0a4a4f9285ecdb96de40e1.png "Comate AI IDE")
+![Vscode](image/4aca70adc5c14cdd9df02f14e3e3e0ef.png "Vscode")
 [单测侠-单测工程师使用手册](https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/_SKPgSwp2G/B8wSneaLSC/wR0VnIUkWJAC3U?t=mention&mt=doc&dt=doc)
 
 # 四、单测rules及实践
@@ -531,9 +531,9 @@ func TestMixedConvey(t *testing.T) {
 * 实践发现，Comate对**rules的遵循不太严格**，而且会主动参考代码库里的其他代码风格，所以建议提示词要通过一些措辞强调一下 **“严格参考mdr文件” **
 * 模型优先使用 **Claude opus**，实测了 auto模式，效果不行；GLM4.7 也差点意思（最近又新支持了 Gemini3 Pro，可以试试）
 
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=1c93a76bbe6f4f7db03b319ea44d6585&docGuid=KSF8a-DkJGvsSO)
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=09a24f21e12540718a1914c4ed1aaf97&docGuid=KSF8a-DkJGvsSO)
-![](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=a78818a254024f8d879260f6cfee3a41&docGuid=KSF8a-DkJGvsSO)
+![](image/1c93a76bbe6f4f7db03b319ea44d6585.png)
+![](image/09a24f21e12540718a1914c4ed1aaf97.png)
+![](image/a78818a254024f8d879260f6cfee3a41.png)
 ```md
 #testing-standards.mdr 严格参考mdr文件里的规范和示例，给tmp.go写一下单测
 ```
@@ -1571,10 +1571,10 @@ ok      command-line-arguments  0.055s
 ## 5.2 覆盖率查看
 目前不同的代码库入口不一样（下图2种），长期会都提到一级目录
 
-![入口1](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=377a97ba79254b42ab59821afd8e35ed&docGuid=KSF8a-DkJGvsSO "入口1")
-![查看报告](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=9e19c442de84498681e511a39e36cbc5&docGuid=KSF8a-DkJGvsSO "查看报告")
-![入口2](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=4576b9b6f75c48d189045c5d5aecd8b4&docGuid=KSF8a-DkJGvsSO "入口2")
-![查看报告](https://rte.weiyun.baidu.com/wiki/attach/image/api/imageDownloadAddress?attachId=5647bd26fca94394a44a653e30680f30&docGuid=KSF8a-DkJGvsSO "查看报告")
+![入口1](image/377a97ba79254b42ab59821afd8e35ed.png "入口1")
+![查看报告](image/9e19c442de84498681e511a39e36cbc5.png "查看报告")
+![入口2](image/4576b9b6f75c48d189045c5d5aecd8b4.png "入口2")
+![查看报告](image/5647bd26fca94394a44a653e30680f30.png "查看报告")
 ## 5.3 submodule 使用指南
 ### **前置准备&引用rules公共库**
 可通过以下命令引用公共 rules 库
